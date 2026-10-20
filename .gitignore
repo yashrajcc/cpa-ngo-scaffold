@@ -11,3 +11,4 @@ apps/cms/public/media
 .DS_Store
 *.log
 .payload
+.vercel
