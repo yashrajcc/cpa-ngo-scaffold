@@ -10,7 +10,9 @@
     "dev:cms": "npm run dev -w @cpa/cms",
     "dev:web": "npm run dev -w @cpa/web",
     "build": "npm run build -w @cpa/cms && npm run build -w @cpa/web",
-    "seed": "npm run seed -w @cpa/cms"
+    "seed": "npm run seed -w @cpa/cms",
+    "test": "npm run test -w @cpa/payments",
+    "typecheck": "npm run typecheck -w @cpa/payments"
   },
   "engines": {
     "node": ">=20.18.1"
