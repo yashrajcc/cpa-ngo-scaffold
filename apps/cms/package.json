@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev --port 3001",
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
-    "start": "cross-env NODE_OPTIONS=--no-deprecation next start --port 3001",
+    "start": "cross-env NODE_OPTIONS=--no-deprecation sh -c 'next start --hostname 0.0.0.0 --port ${PORT:-3001}'",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/demo.ts"
@@ -14,6 +14,7 @@
   "dependencies": {
     "@cpa/config": "*",
     "@cpa/payments": "*",
+    "@payloadcms/db-postgres": "^3.91.0",
     "@payloadcms/db-sqlite": "3.91.0",
     "@payloadcms/next": "3.91.0",
     "@payloadcms/richtext-lexical": "3.91.0",

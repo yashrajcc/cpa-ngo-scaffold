@@ -1,4 +1,3 @@
-import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
 import path from 'path'
@@ -11,6 +10,7 @@ import { Media } from './collections/Media'
 import { Posts } from './collections/Posts'
 import { Pages } from './collections/Pages'
 import { OrgProfile } from './globals/OrgProfile'
+import { createDbAdapter, getDbDialect } from './lib/dbAdapter'
 import { getStorageMode, r2PublicBase } from './lib/storageMode'
 
 const filename = fileURLToPath(import.meta.url)
@@ -37,11 +37,7 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: sqliteAdapter({
-    client: {
-      url: process.env.DATABASE_URL || 'file:./payload.db',
-    },
-  }),
+  db: createDbAdapter(),
   sharp,
   plugins: [
     ...(storageMode === 'r2'
@@ -74,6 +70,8 @@ export default buildConfig({
       : []),
   ],
   onInit: async (payload) => {
+    const dialect = getDbDialect()
+    payload.logger.info(`DB dialect: ${dialect}${dialect === 'sqlite' ? ' (local-only; use Postgres in prod)' : ''}`)
     payload.logger.info(`Media storage mode: ${storageMode}${storageMode === 'r2' ? ` (prefix ${mediaPrefix})` : ' (./media disk)'}`)
   },
 })
