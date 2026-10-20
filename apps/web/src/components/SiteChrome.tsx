@@ -5,14 +5,25 @@ export function SiteChrome({
   brand,
   children,
   home = false,
+  bleed = false,
 }: {
   brand: string
   children: ReactNode
   /** Full-bleed home: transparent header over hero atmosphere */
   home?: boolean
+  /** Full-width main (blog index / story masthead) */
+  bleed?: boolean
 }) {
+  const shellClass = [
+    'site-shell',
+    home ? 'is-home' : '',
+    bleed && !home ? 'is-bleed' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   return (
-    <div className={`site-shell${home ? ' is-home' : ''}`}>
+    <div className={shellClass}>
       <header className="site-header">
         <Link className="brand" href="/">
           {brand}

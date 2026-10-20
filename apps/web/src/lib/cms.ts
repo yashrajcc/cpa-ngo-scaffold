@@ -18,6 +18,8 @@ export type Post = {
   excerpt?: string | null
   publishedAt?: string | null
   content?: unknown
+  /** Demo-only plain body when CMS Lexical is empty */
+  bodyFallback?: string
 }
 
 export type Page = {
@@ -65,7 +67,14 @@ export async function getPost(slug: string): Promise<Post | null> {
   const data = await cmsFetch<{ docs: Post[] }>(
     `/api/posts?where[slug][equals]=${encodeURIComponent(slug)}&limit=1`,
   )
-  return data?.docs?.[0] || fallbackPosts.find((p) => p.slug === slug) || null
+  const fromCms = data?.docs?.[0]
+  const fallback = fallbackPosts.find((p) => p.slug === slug)
+  if (!fromCms) return fallback || null
+  return {
+    ...fromCms,
+    bodyFallback: fromCms.bodyFallback || fallback?.bodyFallback,
+    excerpt: fromCms.excerpt || fallback?.excerpt,
+  }
 }
 
 export async function getPage(slug: string): Promise<Page | null> {
@@ -82,6 +91,11 @@ const fallbackPosts: Post[] = [
     slug: 'why-we-tell-our-own-stories',
     excerpt: 'When the neighbourhood writes first, outsiders stop speaking for us.',
     publishedAt: new Date().toISOString(),
+    bodyFallback: [
+      'For years, funders and reporters arrived with a template already filled in. We were the backdrop. Our kitchens, our school gates, our evening meetings became illustrations for someone else’s narrative.',
+      'So we started publishing ourselves. Not polished campaigns — ordinary updates: who cooked, who waited in the rain, who taught the alphabets after work. The blog is our ledger of presence.',
+      'When neighbours write first, the story stops needing a translator. That is the whole point of a publish-first site.',
+    ].join('\n\n'),
   },
   {
     id: 'f2',
@@ -89,6 +103,11 @@ const fallbackPosts: Post[] = [
     slug: 'field-notes-last-month',
     excerpt: 'Three visits, one monsoon delay, and a kitchen that still feeds fifty.',
     publishedAt: new Date().toISOString(),
+    bodyFallback: [
+      'Week 1 — Visited the east lane kitchen twice. Gas refill delayed; neighbours shared stoves. Attendance held at forty-eight.',
+      'Week 2 — Monsoon closed the community room for three evenings. We moved literacy circles to a covered verandah. Two new volunteers.',
+      'Week 3 — Kitchen still feeding fifty on most days. Noted a request for larger pots before festival week. Follow up with the store committee.',
+    ].join('\n\n'),
   },
 ]
 
