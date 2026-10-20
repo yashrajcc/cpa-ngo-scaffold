@@ -1,0 +1,19 @@
+# Cloudflare Pages project stub for apps/web (preferred long-term host).
+# Requires: npx wrangler login  (Yashraj — cannot be completed by agents)
+#
+# Live demo today: Vercel https://cpa-ngo-web.vercel.app
+# After login, wire Git → Pages or: npx wrangler pages deploy (see docs/ops/deploy-web.md)
+
+name = "cpa-ngo-web"
+compatibility_date = "2025-10-01"
+pages_build_output_dir = "apps/web/.next"
+
+# Dashboard / Pages build settings (when using CF Git integration):
+#   Root directory:     (repo root)
+#   Build command:      npm ci && npm run build -w @cpa/web
+#   Build output dir:   apps/web/.next   (or OpenNext adapter output when adopted)
+#   Node version:       20+
+#
+# Note: Next.js 15 App Router on Pages may need @opennextjs/cloudflare or
+# @cloudflare/next-on-pages. Until that adapter is adopted, keep Vercel as
+# the production web host and treat this file as the CF project name lock.

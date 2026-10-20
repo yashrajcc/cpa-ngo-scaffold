@@ -6,7 +6,8 @@ export const DEFAULT_LAYER: Layer = 'publish'
 export const ENV_KEYS = {
   cms: [
     'PAYLOAD_SECRET',
-    'DATABASE_URL',
+    'DATABASE_URL', // file: SQLite local-only; postgresql:// required on Railway
+    'PAYLOAD_PUBLIC_SERVER_URL',
     'R2_BUCKET',
     'R2_ENDPOINT',
     'R2_ACCESS_KEY_ID',
@@ -21,4 +22,10 @@ export const ENV_KEYS = {
     'RAZORPAY_KEY_SECRET',
     'NEXT_PUBLIC_RAZORPAY_KEY_ID',
   ],
+} as const
+
+/** Documented hosting targets — see docs/ops/deploy.md */
+export const HOSTING = {
+  web: { current: 'vercel', preferred: 'cloudflare-pages' },
+  cms: { current: null, preferred: 'railway-postgres' },
 } as const

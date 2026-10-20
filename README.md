@@ -10,10 +10,10 @@ Decision lock: Project store `docs/v0.1.md` (architecture / SKUs live there too)
 |-------|--------|
 | Frontend | Next.js 15.4 (App Router) — `apps/web` |
 | CMS + Auth | Payload CMS 3 — `apps/cms` |
-| DB | SQLite local (`file:./payload.db`); Postgres later |
+| DB | SQLite local (`file:./payload.db`); **Postgres on hosted CMS** |
 | Media | Local `media/` or Cloudflare R2 when env set |
 | Payments | Razorpay (mock if keys unset) |
-| Hosting targets | Cloudflare Pages (web) · Railway (cms) |
+| Hosting targets | Web: Vercel (live) / CF Pages later · CMS: Railway + Postgres |
 
 ## Repo shape
 
@@ -24,8 +24,20 @@ packages/theme    Minimal visual tokens
 packages/payments Razorpay helpers (mockable)
 packages/config   Shared env / layer types
 content/demo-org  Seed notes
-docs/ops          Mode A/B, backup, env checklist
+docs/ops          Deploy, Mode A/B, backup, env checklist
+vercel.json       Web (Vercel) monorepo build
+railway.toml      CMS (Railway) build/start
+wrangler.toml     CF Pages name stub (login required)
 ```
+
+## Deploy
+
+| Surface | Doc |
+|---------|-----|
+| Overview | [docs/ops/deploy.md](docs/ops/deploy.md) |
+| Web (Vercel live) | [docs/ops/deploy-web.md](docs/ops/deploy-web.md) → https://cpa-ngo-web.vercel.app |
+| CMS (Railway) | [docs/ops/deploy-cms.md](docs/ops/deploy-cms.md) |
+| Logins Yashraj owes | [docs/ops/human-login-checklist.md](docs/ops/human-login-checklist.md) |
 
 ## Local run
 

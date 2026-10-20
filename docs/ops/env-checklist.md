@@ -34,21 +34,34 @@ No R2 or Razorpay credentials were found on this machine / project `.env` / keyc
 
 | Var | Required locally? | Notes |
 |-----|-------------------|-------|
-| `PAYLOAD_SECRET` | yes | long random string |
-| `DATABASE_URL` | yes | default `file:./payload.db` (SQLite). Prod → Postgres URL later |
-| `PAYLOAD_PUBLIC_SERVER_URL` | yes for absolute media URLs | e.g. `http://localhost:3001` |
-| `R2_*` (see above) | no | if incomplete → `storageMode: local` |
+| `PAYLOAD_SECRET` | yes | long random string (`openssl rand -base64 32`) |
+| `DATABASE_URL` | yes | **Local:** `file:./payload.db` (SQLite). **Hosted:** `postgresql://…` only — see [deploy-cms.md](./deploy-cms.md) |
+| `PAYLOAD_PUBLIC_SERVER_URL` | yes for absolute media URLs | local `http://localhost:3001`; prod `https://<cms>.up.railway.app` |
+| `R2_*` (see above) | no | if incomplete → `storageMode: local` (ephemeral on Railway) |
 | `WEB_REVALIDATE_URL` | no | publish hook no-ops if unset |
 | `REVALIDATE_SECRET` | with revalidate URL | must match web |
 
-Health (no secrets): `GET /api/health` → `{ storageMode: "r2" \| "local" }`.
+Templates: `apps/cms/.env.example` (local) · `apps/cms/.env.production.example` (Railway).
+
+Health (no secrets): `GET /api/health` → `{ dbDialect: "sqlite" \| "postgres", storageMode: "r2" \| "local" }`.
 
 ## Web (`apps/web/.env`)
 
 | Var | Required locally? | Notes |
 |-----|-------------------|-------|
-| `CMS_URL` | yes for live CMS | `http://localhost:3001` |
+| `CMS_URL` | yes for live CMS | local `http://localhost:3001`; prod Railway CMS origin |
 | `REVALIDATE_SECRET` | for publish hook | match CMS |
 | `RAZORPAY_KEY_ID` + `RAZORPAY_KEY_SECRET` | no | both set → Orders API + Checkout.js; else mock |
 
+Templates: `apps/web/.env.example` · `apps/web/.env.production.example` (Vercel).
+
 Health (no secrets): `GET /api/health` → `{ donateMode: "live" \| "mock" }`.
+
+## Hosting targets (quick)
+
+| App | Where to set env |
+|-----|------------------|
+| Web | Vercel → Project → Settings → Environment Variables (today) |
+| CMS | Railway → Service → Variables (+ Postgres plugin reference for `DATABASE_URL`) |
+
+Full steps: [deploy.md](./deploy.md) · [human-login-checklist.md](./human-login-checklist.md).
