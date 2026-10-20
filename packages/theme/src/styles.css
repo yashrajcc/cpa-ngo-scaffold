@@ -187,10 +187,11 @@ a:hover {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(180deg, transparent 20%, color-mix(in srgb, var(--cpa-paper) 55%, transparent) 72%, var(--cpa-paper) 100%),
-    radial-gradient(ellipse 80% 55% at 70% 35%, color-mix(in srgb, var(--cpa-mist) 65%, transparent), transparent 70%),
-    radial-gradient(ellipse 60% 50% at 20% 60%, color-mix(in srgb, var(--cpa-sky) 70%, transparent), transparent 65%),
-    linear-gradient(145deg, #b8d4c8 0%, #9ec4c8 38%, #c9d9c4 68%, #dfe8dc 100%);
+    linear-gradient(180deg, transparent 35%, color-mix(in srgb, var(--cpa-paper) 40%, transparent) 78%, var(--cpa-paper) 100%),
+    radial-gradient(ellipse 90% 60% at 78% 28%, #7eb8b0 0%, transparent 68%),
+    radial-gradient(ellipse 70% 55% at 12% 55%, #8eb9d0 0%, transparent 62%),
+    radial-gradient(ellipse 50% 40% at 48% 70%, #a8c99a 0%, transparent 70%),
+    linear-gradient(148deg, #6fa89c 0%, #7aadc0 32%, #9bb89a 62%, #c5d6c0 100%);
   animation: mist-drift 18s ease-in-out infinite alternate;
 }
 

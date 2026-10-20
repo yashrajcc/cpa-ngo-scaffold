@@ -58,7 +58,7 @@ export async function getPosts(): Promise<Post[]> {
   const data = await cmsFetch<{ docs: Post[] }>(
     '/api/posts?where[_status][equals]=published&sort=-publishedAt&limit=20',
   )
-  return data?.docs || fallbackPosts
+  return data?.docs?.length ? data.docs : fallbackPosts
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
