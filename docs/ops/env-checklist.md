@@ -1,5 +1,7 @@
 # Env checklist
 
+**First time?** Step-by-step screenshots-in-words: [../setup-keys.md](../setup-keys.md) (Razorpay Test first; R2 optional / can wait).
+
 Copy examples, then fill only what you have. **Missing R2 / Razorpay is OK for local boot** (local disk media + mock donate).
 
 ## Secrets Yashraj must provide for live wiring
