@@ -69,5 +69,6 @@ Engage campaigns, partner fleet, Archive importer, multi-tenant SaaS.
 ## Quality / UAT
 
 - [How to build right](docs/how-to-build-right.md)
+- [Testing (unit + CI)](docs/testing.md) — `npm test`
 - [UAT checklist](docs/uat-checklist.md)
 - [Setup keys (Razorpay / R2)](docs/setup-keys.md)
