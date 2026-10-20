@@ -15,9 +15,11 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <SiteChrome brand={org.name}>
       <article className="prose">
-        <p className="muted">{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-IN') : ''}</p>
-        <h1 style={{ fontFamily: 'var(--cpa-serif)' }}>{post.title}</h1>
-        <p>{body}</p>
+        <p className="muted">
+          {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-IN') : ''}
+        </p>
+        <h1>{post.title}</h1>
+        <p className="lede-block">{body}</p>
       </article>
     </SiteChrome>
   )

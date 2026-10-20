@@ -8,15 +8,17 @@ export default async function BlogIndex() {
 
   return (
     <SiteChrome brand={org.name}>
-      <h1 style={{ fontFamily: 'var(--cpa-serif)' }}>Blog</h1>
-      <p className="muted">Long-term archive starts here — published posts only.</p>
+      <header className="page-intro">
+        <h1>Blog</h1>
+        <p>Field notes and long-term archive — published posts only.</p>
+      </header>
       <div className="card-list">
         {posts.map((post) => (
           <article key={post.id}>
             <h2>
               <Link href={`/blog/${post.slug}`}>{post.title}</Link>
             </h2>
-            {post.excerpt ? <p>{post.excerpt}</p> : null}
+            {post.excerpt ? <p className="muted">{post.excerpt}</p> : null}
           </article>
         ))}
       </div>
