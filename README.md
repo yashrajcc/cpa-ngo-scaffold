@@ -65,3 +65,9 @@ No R2 or Razorpay credentials required. Donate shows **mock** mode; media writes
 ## Out of 0.1
 
 Engage campaigns, partner fleet, Archive importer, multi-tenant SaaS.
+
+## Quality / UAT
+
+- [How to build right](docs/how-to-build-right.md)
+- [UAT checklist](docs/uat-checklist.md)
+- [Setup keys (Razorpay / R2)](docs/setup-keys.md)
