@@ -9,14 +9,13 @@ export async function POST(req: Request) {
     keySecret: process.env.RAZORPAY_KEY_SECRET,
   })
 
-  if (donate.mode === 'mock') {
+  if (donate.mode === 'mock' || !donate.keyId) {
     return NextResponse.json({
       mode: 'mock',
       message: mockDonateMessage(amountInr),
     })
   }
 
-  // Live/test path: create Razorpay order via Orders API (secret server-side only).
   try {
     const auth = Buffer.from(`${donate.keyId}:${process.env.RAZORPAY_KEY_SECRET}`).toString(
       'base64',
@@ -31,9 +30,15 @@ export async function POST(req: Request) {
         amount: Math.round(amountInr * 100),
         currency: 'INR',
         receipt: `cpa_${Date.now()}`,
+        notes: { source: 'cpa-v0.1' },
       }),
     })
-    const data = (await res.json()) as { id?: string; error?: { description?: string } }
+    const data = (await res.json()) as {
+      id?: string
+      amount?: number
+      currency?: string
+      error?: { description?: string }
+    }
     if (!res.ok || !data.id) {
       return NextResponse.json(
         {
@@ -43,7 +48,16 @@ export async function POST(req: Request) {
         { status: 502 },
       )
     }
-    return NextResponse.json({ mode: 'live', orderId: data.id, amountInr })
+
+    // Public key id is safe to return for Checkout.js
+    return NextResponse.json({
+      mode: 'live',
+      orderId: data.id,
+      amountInr,
+      amountPaise: data.amount ?? Math.round(amountInr * 100),
+      currency: data.currency || 'INR',
+      keyId: donate.keyId,
+    })
   } catch (err) {
     return NextResponse.json(
       {

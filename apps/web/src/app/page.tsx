@@ -31,7 +31,11 @@ export default async function HomePage() {
 
       <section>
         <h2 style={{ fontFamily: 'var(--cpa-serif)' }}>Support this work</h2>
-        <DonateBox presets={donate.presetsInr.length ? donate.presetsInr : parsePresets(null)} mode={donate.mode} />
+        <DonateBox
+          presets={donate.presetsInr.length ? donate.presetsInr : parsePresets(null)}
+          mode={donate.mode}
+          orgName={org.name}
+        />
       </section>
 
       <section className="card-list">

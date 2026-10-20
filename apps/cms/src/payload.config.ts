@@ -11,15 +11,14 @@ import { Media } from './collections/Media'
 import { Posts } from './collections/Posts'
 import { Pages } from './collections/Pages'
 import { OrgProfile } from './globals/OrgProfile'
+import { getStorageMode, r2PublicBase } from './lib/storageMode'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const r2Ready =
-  Boolean(process.env.R2_BUCKET) &&
-  Boolean(process.env.R2_ENDPOINT) &&
-  Boolean(process.env.R2_ACCESS_KEY_ID) &&
-  Boolean(process.env.R2_SECRET_ACCESS_KEY)
+const storageMode = getStorageMode()
+const publicBase = r2PublicBase()
+const mediaPrefix = (process.env.R2_PREFIX || 'orgs/demo').replace(/^\/|\/$/g, '')
 
 export default buildConfig({
   admin: {
@@ -45,19 +44,28 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
-    ...(r2Ready
+    ...(storageMode === 'r2'
       ? [
           s3Storage({
-            collections: {
-              media: true,
-            },
             bucket: process.env.R2_BUCKET as string,
+            disableLocalStorage: true,
+            collections: {
+              media: {
+                prefix: mediaPrefix,
+                generateFileURL: ({ filename, prefix }) => {
+                  const key = [prefix, filename].filter(Boolean).join('/')
+                  if (publicBase) return `${publicBase}/${key}`
+                  const server = (process.env.PAYLOAD_PUBLIC_SERVER_URL || '').replace(/\/$/, '')
+                  return `${server}/api/media/file/${filename}`
+                },
+              },
+            },
             config: {
               credentials: {
                 accessKeyId: process.env.R2_ACCESS_KEY_ID as string,
                 secretAccessKey: process.env.R2_SECRET_ACCESS_KEY as string,
               },
-              region: 'auto',
+              region: process.env.R2_REGION || 'auto',
               endpoint: process.env.R2_ENDPOINT,
               forcePathStyle: true,
             },
@@ -65,4 +73,7 @@ export default buildConfig({
         ]
       : []),
   ],
+  onInit: async (payload) => {
+    payload.logger.info(`Media storage mode: ${storageMode}${storageMode === 'r2' ? ` (prefix ${mediaPrefix})` : ' (./media disk)'}`)
+  },
 })
