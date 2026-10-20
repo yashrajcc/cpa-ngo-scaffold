@@ -7,13 +7,13 @@ export default async function AboutPage() {
   const body =
     richTextToPlain(page?.content) ||
     org.aboutBlurb ||
-    'About content loads from the CMS Pages collection (slug: about).'
+    'Sahara Community Collective is a demo NGO for the CPA Publish scaffold — a calm, blog-first public site for neighbourhood organising and field storytelling.'
 
   return (
     <SiteChrome brand={org.name}>
       <article className="prose">
-        <h1 style={{ fontFamily: 'var(--cpa-serif)' }}>{page?.title || 'About'}</h1>
-        <p>{body}</p>
+        <h1>{page?.title || 'About'}</h1>
+        <p className="lede-block">{body}</p>
       </article>
     </SiteChrome>
   )

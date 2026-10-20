@@ -13,24 +13,32 @@ export default async function HomePage() {
     presetsRaw: org.donatePresetsInr,
   })
 
+  const lede =
+    org.tagline && !org.tagline.toLowerCase().includes('cms offline')
+      ? org.tagline
+      : 'Neighbourhood stories, field notes, and quiet solidarity — published for the people who keep this work going.'
+
   return (
-    <SiteChrome brand={org.name}>
-      <section className="hero">
-        <p className="muted">Publish layer · demo org</p>
-        <h1>{org.name}</h1>
-        <p>{org.tagline || 'Stories first. Donate when you can.'}</p>
-        <div className="cta-row">
-          <Link className="btn" href="/blog">
-            Read the blog
-          </Link>
-          <Link className="btn secondary" href="/about">
-            About
-          </Link>
+    <SiteChrome brand={org.name} home>
+      <section className="hero" aria-label="Welcome">
+        <div className="hero-atmosphere" aria-hidden="true" />
+        <div className="hero-inner">
+          <h1 className="brand-mark">{org.name}</h1>
+          <p className="lede">{lede}</p>
+          <div className="cta-row">
+            <Link className="btn" href="/blog">
+              Read the blog
+            </Link>
+            <Link className="btn secondary" href="/about">
+              About us
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section>
-        <h2 style={{ fontFamily: 'var(--cpa-serif)' }}>Support this work</h2>
+      <section className="band">
+        <h2 className="band-title">Support this work</h2>
+        <p className="band-lead">Choose an amount. Live Razorpay when keys are set; otherwise a safe mock path.</p>
         <DonateBox
           presets={donate.presetsInr.length ? donate.presetsInr : parsePresets(null)}
           mode={donate.mode}
@@ -38,16 +46,19 @@ export default async function HomePage() {
         />
       </section>
 
-      <section className="card-list">
-        <h2 style={{ fontFamily: 'var(--cpa-serif)' }}>Latest</h2>
-        {posts.map((post) => (
-          <article key={post.id}>
-            <h2>
-              <Link href={`/blog/${post.slug}`}>{post.title}</Link>
-            </h2>
-            {post.excerpt ? <p className="muted">{post.excerpt}</p> : null}
-          </article>
-        ))}
+      <section className="band">
+        <h2 className="band-title">Latest from the field</h2>
+        <p className="band-lead">Recent posts — the blog is the heart of this site.</p>
+        <div className="card-list">
+          {posts.map((post) => (
+            <article key={post.id}>
+              <h2>
+                <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+              </h2>
+              {post.excerpt ? <p className="muted">{post.excerpt}</p> : null}
+            </article>
+          ))}
+        </div>
       </section>
     </SiteChrome>
   )

@@ -1,7 +1,8 @@
 export const brand = {
   name: 'CPA Publish',
-  accent: '#1f4d3a',
-  ink: '#14201a',
-  paper: '#f3f0e7',
-  mist: '#d8e3dc',
+  accent: '#1b6b5c',
+  ink: '#122a28',
+  paper: '#eef3f1',
+  mist: '#c5ddd6',
+  sky: '#d4e5ef',
 } as const

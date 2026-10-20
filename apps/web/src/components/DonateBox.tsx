@@ -98,7 +98,7 @@ export function DonateBox({
               : 'Payment completed.',
           )
         },
-        theme: { color: '#1f4d3a' },
+        theme: { color: '#1b6b5c' },
       })
       rzp.on('payment.failed', (resp: unknown) => {
         const r = resp as { error?: { description?: string } }

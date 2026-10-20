@@ -44,8 +44,11 @@ export async function getOrgProfile(): Promise<OrgProfile> {
   return (
     data || {
       name: 'Sahara Community Collective',
-      tagline: 'Demo NGO (CMS offline — showing fallback content)',
-      aboutBlurb: 'Start apps/cms on port 3001 to load live content.',
+      tagline:
+        'Neighbourhood stories, field notes, and quiet solidarity — published for the people who keep this work going.',
+      aboutBlurb:
+        'Sahara Community Collective is a demo NGO for the CPA Publish scaffold — a calm, blog-first public site for neighbourhood organising and field storytelling.',
+      contactEmail: 'hello@sahara-demo.example',
       donatePresetsInr: '100,500,1000',
     }
   )
@@ -55,7 +58,7 @@ export async function getPosts(): Promise<Post[]> {
   const data = await cmsFetch<{ docs: Post[] }>(
     '/api/posts?where[_status][equals]=published&sort=-publishedAt&limit=20',
   )
-  return data?.docs || fallbackPosts
+  return data?.docs?.length ? data.docs : fallbackPosts
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
@@ -77,14 +80,14 @@ const fallbackPosts: Post[] = [
     id: 'f1',
     title: 'Why we tell our own stories',
     slug: 'why-we-tell-our-own-stories',
-    excerpt: 'Fallback post — seed the CMS for live content.',
+    excerpt: 'When the neighbourhood writes first, outsiders stop speaking for us.',
     publishedAt: new Date().toISOString(),
   },
   {
     id: 'f2',
     title: 'Field notes from the last month',
     slug: 'field-notes-last-month',
-    excerpt: 'Fallback post two.',
+    excerpt: 'Three visits, one monsoon delay, and a kitchen that still feeds fifty.',
     publishedAt: new Date().toISOString(),
   },
 ]
