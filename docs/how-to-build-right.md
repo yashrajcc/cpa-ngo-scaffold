@@ -52,7 +52,7 @@ Think of safety as **preventing the failures you’ve already lived through**, n
 3. **Admin auth** — first CMS user is admin; invite editors; don’t share one password.  
 4. **Mode A vs B** — who holds deploy keys, R2, billing, support is written down ([`architecture.md`](./architecture.md) §2). Razorpay **merchant** stays with the org.  
 5. **Least privilege** — R2 token = object read/write on one bucket, not “account owner forever.”  
-6. **Backups** — even a stub: copy `payload.db` + `media/` (or R2). Before Keep Alive money: scheduled backup + one restore drill ([repo `docs/ops/backup-restore.md`](../../Projects/NGOCollabs/CPAProject/docs/ops/backup-restore.md) when working in checkout).  
+6. **Backups** — even a stub: copy `payload.db` + `media/` (or R2). Before Keep Alive money: scheduled backup + one restore drill (see checkout `docs/ops/backup-restore.md`).  
 7. **Before Live Razorpay** — verify webhooks (signature check) so faked “payment success” callbacks can’t lie to you. Test Mode can come first; Live needs webhook verify.
 
 ### What you can defer
